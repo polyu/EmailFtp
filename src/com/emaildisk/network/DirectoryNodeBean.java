@@ -2,16 +2,18 @@ package com.emaildisk.network;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DirectoryNodeBean {
 	private String parent="";
 	private Date updateDate=new Date();
 	private String directoryName="";
-	private List<String> directoryNodeCollection=new ArrayList<String>();
-	private List<String> directoryNameCollection=new ArrayList<String>();
-	private List<String> fileNodeCollection=new ArrayList<String>();
-	private List<String> fileNameCollection=new ArrayList<String>();
+	private Map<String,String> directoryNodeCollection=new HashMap<String,String>();
+	
+	private Map<String,String> fileNodeCollection=new HashMap<String,String>();
+	
 	public void setUpdateDate(Date date)
 	{
 		this.updateDate=date;
@@ -36,36 +38,21 @@ public class DirectoryNodeBean {
 	{
 		return this.getDirectoryName();
 	}
-	public List<String> getDirectoryNodeCollection()
+	public Map<String,String> getDirectoryNodeCollection()
 	{
 		return this.directoryNodeCollection;
 	}
-	public List<String> getFileNodeCollection()
+	public Map<String,String> getFileNodeCollection()
 	{
 		return this.fileNodeCollection;
 	}
-	public void setFileNodeCollection(List<String> fileNodeCollection)
+	public void setFileNodeCollection(Map<String,String> fileNodeCollection)
 	{
 		this.fileNodeCollection=fileNodeCollection;
 	}
-	public void setDirectoryNodeCollection(List<String> directoryNodeCollection)
+	public void setDirectoryNodeCollection(Map<String,String> directoryNodeCollection)
 	{
 		this.directoryNodeCollection=directoryNodeCollection;
 	}
-	public List<String> getDirectoryNameCollection()
-	{
-		return this.directoryNameCollection;
-	}
-	public List<String> getFileNameCollection()
-	{
-		return this.fileNameCollection;
-	}
-	public void setFileNameCollection(List<String> fileNameCollection)
-	{
-		this.fileNameCollection=fileNameCollection;
-	}
-	public void setDirectoryNameCollection(List<String> directoryNameCollection)
-	{
-		this.directoryNameCollection=directoryNameCollection;
-	}
+	
 }

@@ -416,7 +416,7 @@ public class NetworkIMAPHandler {
 				
 				if(Config.debugFlag)
 				{
-					List<String> dir=this.currentDirectoryNodeBean.getDirectoryNodeCollection();
+					/*List<String> dir=this.currentDirectoryNodeBean.getDirectoryNodeCollection();
 					logger.warning("Debug Message for dir from dir");
 					for(int j=0;j<dir.size();j++)
 					{
@@ -427,7 +427,7 @@ public class NetworkIMAPHandler {
 					for(int j=0;j<file_1.size();j++)
 					{
 						logger.warning(file_1.get(j));
-					}
+					}*/
 				}
 				return true;
 			}

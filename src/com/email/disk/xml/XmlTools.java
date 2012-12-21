@@ -9,9 +9,11 @@ import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;   
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Logger;
 import com.emaildisk.network.ContentBean;
 import com.emaildisk.network.DirectoryNodeBean;
@@ -201,6 +203,7 @@ public class XmlTools {
 		try 
 		{   
 			File file=File.createTempFile("EMAILDISK", "CREATETEMPFILE");
+			file.deleteOnExit();
 			Writer fileWriter=new FileWriter(file);   
 			XMLWriter xmlWriter=new XMLWriter(fileWriter);   
 			xmlWriter.write(document);   
@@ -240,13 +243,28 @@ public class XmlTools {
 				}
 				else if(nodeName.equals("Files"))
 				{
-					List<String> fileArray=new ArrayList<String>();
+					Map<String,String> fileArray=new HashMap<String,String>();
 					for(Iterator fileIt=temp.elementIterator();fileIt.hasNext();)
 					{
 						Element filedetail=(Element)fileIt.next();
 						if(filedetail.getName().equals("File"))
 						{
-							fileArray.add(filedetail.getText());
+							String singleName=null;
+							String singleHash=null;
+							for(Iterator fileDetailIt=filedetail.elementIterator();fileDetailIt.hasNext();)
+							{
+								Element fileDetailTempNode=(Element)fileDetailIt.next();
+								String fileDetailTempName=fileDetailTempNode.getName();
+								if(fileDetailTempName.equals("FileName"))
+								{
+									singleName=fileDetailTempNode.getText();
+								}
+								else if(fileDetailTempName.equals("HashCode"))
+								{
+									singleHash=fileDetailTempNode.getText();
+								}
+							}
+							fileArray.put(singleName, singleHash);
 						}
 						else
 						{
@@ -257,13 +275,28 @@ public class XmlTools {
 				}
 				else if(nodeName.equals("Directorys"))
 				{
-					List<String> dirArray=new ArrayList<String>();
+					Map<String,String> dirArray=new HashMap<String,String>();
 					for(Iterator dirIt=temp.elementIterator();dirIt.hasNext();)
 					{
-						Element filedetail=(Element)dirIt.next();
-						if(filedetail.getName().equals("Directory"))
+						Element directorydetail=(Element)dirIt.next();
+						if(directorydetail.getName().equals("Directory"))
 						{
-							dirArray.add(filedetail.getText());
+							String singleName=null;
+							String singleHash=null;
+							for(Iterator directorydetailIt=directorydetail.elementIterator();directorydetailIt.hasNext();)
+							{
+								Element directoryDetailTempNode=(Element)directorydetailIt.next();
+								String directoryDetailTempName=directoryDetailTempNode.getName();
+								if(directoryDetailTempName.equals("DirectoryName"))
+								{
+									singleName=directoryDetailTempNode.getText();
+								}
+								else if(directoryDetailTempName.equals("HashCode"))
+								{
+									singleHash=directoryDetailTempNode.getText();
+								}
+							}
+							dirArray.put(singleName, singleHash);
 						}
 						else
 						{
@@ -378,23 +411,45 @@ public class XmlTools {
 		Element content=document.addElement("DirectoryNodeMetas");   
 		Element version=content.addElement("Version");
 		version.setText(Config.VERSION);
+		Element updateDate=content.addElement("UpdateDate");
+		updateDate.setText(bean.getUpdateDate().toString());
 		Element Directorys=content.addElement("Directorys");
-		List<String> dirArray=bean.getDirectoryNodeCollection();
-		for(int i=0;i<dirArray.size();i++)
+		Map<String,String> dirArray=bean.getDirectoryNodeCollection();
+		Iterator iter = dirArray.entrySet().iterator();
+		while (iter.hasNext()) 
 		{
+			Map.Entry entry = (Map.Entry) iter.next();
+			String SingleName = (String)entry.getKey();
+			String SingleHash = (String)entry.getValue();
 			Element directoryTmp=Directorys.addElement("Directory");
-			 directoryTmp.setText(dirArray.get(i));
+			Element directoryNameTmp=directoryTmp.addElement("DirectoryName");
+			directoryNameTmp.setText(SingleName);
+			Element directoryHashTmp=directoryTmp.addElement("HashCode");
+			directoryHashTmp.setText(SingleHash);
 		}
 		Element Files=content.addElement("Files");
-		List<String> FileArray=bean.getFileNodeCollection();
-		for(int i=0;i<FileArray.size();i++)
+		Map<String,String> fileArray=bean.getFileNodeCollection();
+		Iterator fileIter = fileArray.entrySet().iterator();
+		while (fileIter.hasNext()) 
 		{
-			 Element filenodeTmp=Files.addElement("File");
-			 filenodeTmp.setText(FileArray.get(i));
+			Map.Entry entry = (Map.Entry) fileIter.next();
+			String SingleName = (String)entry.getKey();
+			String SingleHash = (String)entry.getValue();
+			Element fileTmp=Files.addElement("File");
+			Element fileNameTmp=fileTmp.addElement("FileName");
+			fileNameTmp.setText(SingleName);
+			Element fileHashTmp=fileTmp.addElement("HashCode");
+			fileHashTmp.setText(SingleHash);
 		}
 		try 
 		{   
 			File file=File.createTempFile("EMAILDISK", "CREATETEMPFILE");
+			file.deleteOnExit();
+			if(Config.debugFlag)
+			{
+				logger.warning("Node Metas Making Up Test");
+				logger.warning(file.getAbsolutePath());
+			}
 			Writer fileWriter=new FileWriter(file);   
 			XMLWriter xmlWriter=new XMLWriter(fileWriter);   
 			xmlWriter.write(document);   
@@ -413,6 +468,8 @@ public class XmlTools {
 		Element content=document.addElement("FileNodeMetas");   
 		Element version=content.addElement("Version");
 		version.setText(Config.VERSION);
+		Element updateDate=content.addElement("UpdateDate");
+		updateDate.setText(bean.getUpdateDate().toString());
 		Element fileName=content.addElement("FileName");
 		fileName.setText(bean.getFileName());
 		Element blocks=content.addElement("Blocks");
@@ -425,6 +482,12 @@ public class XmlTools {
 		try 
 		{   
 			File file=File.createTempFile("EMAILDISK", "CREATETEMPFILE");
+			file.deleteOnExit();
+			if(Config.debugFlag)
+			{
+				logger.warning("Note File Metas Making Up Test");
+				logger.warning(file.getAbsolutePath());
+			}
 			Writer fileWriter=new FileWriter(file);   
 			XMLWriter xmlWriter=new XMLWriter(fileWriter);   
 			xmlWriter.write(document);   
