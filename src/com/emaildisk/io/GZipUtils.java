@@ -11,9 +11,9 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;  
   
 /** 
- * GZIP¹¤¾ß 
+ * GZIPï¿½ï¿½ï¿½ï¿½ 
  *  
- * @author <a href="mailto:zlex.dongliang@gmail.com">Áº¶°</a> 
+ * @author <a href="mailto:zlex.dongliang@gmail.com">ï¿½ï¿½ï¿½ï¿½</a> 
  * @since 1.0 
  */  
 public abstract class GZipUtils {  
@@ -22,7 +22,7 @@ public abstract class GZipUtils {
     public static final String EXT = ".gz";  
   
     /** 
-     * Êý¾ÝÑ¹Ëõ 
+     * ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ 
      *  
      * @param data 
      * @return 
@@ -32,7 +32,7 @@ public abstract class GZipUtils {
         ByteArrayInputStream bais = new ByteArrayInputStream(data);  
         ByteArrayOutputStream baos = new ByteArrayOutputStream();  
   
-        // Ñ¹Ëõ  
+        // Ñ¹ï¿½ï¿½  
         compress(bais, baos);  
   
         byte[] output = baos.toByteArray();  
@@ -46,7 +46,7 @@ public abstract class GZipUtils {
     }  
   
     /** 
-     * ÎÄ¼þÑ¹Ëõ 
+     * ï¿½Ä¼ï¿½Ñ¹ï¿½ï¿½ 
      *  
      * @param file 
      * @throws Exception 
@@ -56,11 +56,11 @@ public abstract class GZipUtils {
     }  
   
     /** 
-     * ÎÄ¼þÑ¹Ëõ 
+     * ï¿½Ä¼ï¿½Ñ¹ï¿½ï¿½ 
      *  
      * @param file 
      * @param delete 
-     *            ÊÇ·ñÉ¾³ýÔ­Ê¼ÎÄ¼þ 
+     *            ï¿½Ç·ï¿½É¾ï¿½ï¿½Ô­Ê¼ï¿½Ä¼ï¿½ 
      * @throws Exception 
      */  
     public static void compress(File file, boolean delete) throws Exception {  
@@ -76,10 +76,33 @@ public abstract class GZipUtils {
         if (delete) {  
             file.delete();  
         }  
+    } 
+    
+    /** 
+     * ï¿½Ä¼ï¿½Ñ¹ï¿½ï¿½ 
+     *  
+     * @param file 
+     * @param delete 
+     *            ï¿½Ç·ï¿½É¾ï¿½ï¿½Ô­Ê¼ï¿½Ä¼ï¿½ 
+     * @throws Exception 
+     */  
+    public static void compress(File inputFile, File outputFile, boolean delete) throws Exception {  
+        FileInputStream fis = new FileInputStream(inputFile);  
+        FileOutputStream fos = new FileOutputStream(outputFile);  
+  
+        compress(fis, fos);  
+  
+        fis.close();  
+        fos.flush();  
+        fos.close();  
+  
+        if (delete) {  
+            inputFile.delete();  
+        }  
     }  
   
     /** 
-     * Êý¾ÝÑ¹Ëõ 
+     * ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ 
      *  
      * @param is 
      * @param os 
@@ -103,7 +126,7 @@ public abstract class GZipUtils {
     }  
   
     /** 
-     * ÎÄ¼þÑ¹Ëõ 
+     * ï¿½Ä¼ï¿½Ñ¹ï¿½ï¿½ 
      *  
      * @param path 
      * @throws Exception 
@@ -113,11 +136,11 @@ public abstract class GZipUtils {
     }  
   
     /** 
-     * ÎÄ¼þÑ¹Ëõ 
+     * ï¿½Ä¼ï¿½Ñ¹ï¿½ï¿½ 
      *  
      * @param path 
      * @param delete 
-     *            ÊÇ·ñÉ¾³ýÔ­Ê¼ÎÄ¼þ 
+     *            ï¿½Ç·ï¿½É¾ï¿½ï¿½Ô­Ê¼ï¿½Ä¼ï¿½ 
      * @throws Exception 
      */  
     public static void compress(String path, boolean delete) throws Exception {  
@@ -126,7 +149,7 @@ public abstract class GZipUtils {
     }  
   
     /** 
-     * Êý¾Ý½âÑ¹Ëõ 
+     * ï¿½ï¿½Ý½ï¿½Ñ¹ï¿½ï¿½ 
      *  
      * @param data 
      * @return 
@@ -136,7 +159,7 @@ public abstract class GZipUtils {
         ByteArrayInputStream bais = new ByteArrayInputStream(data);  
         ByteArrayOutputStream baos = new ByteArrayOutputStream();  
   
-        // ½âÑ¹Ëõ  
+        // ï¿½ï¿½Ñ¹ï¿½ï¿½  
   
         decompress(bais, baos);  
   
@@ -151,7 +174,7 @@ public abstract class GZipUtils {
     }  
   
     /** 
-     * ÎÄ¼þ½âÑ¹Ëõ 
+     * ï¿½Ä¼ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ 
      *  
      * @param file 
      * @throws Exception 
@@ -161,11 +184,11 @@ public abstract class GZipUtils {
     }  
   
     /** 
-     * ÎÄ¼þ½âÑ¹Ëõ 
+     * ï¿½Ä¼ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ 
      *  
      * @param file 
      * @param delete 
-     *            ÊÇ·ñÉ¾³ýÔ­Ê¼ÎÄ¼þ 
+     *            ï¿½Ç·ï¿½É¾ï¿½ï¿½Ô­Ê¼ï¿½Ä¼ï¿½ 
      * @throws Exception 
      */  
     public static void decompress(File file, boolean delete) throws Exception {  
@@ -181,9 +204,30 @@ public abstract class GZipUtils {
             file.delete();  
         }  
     }  
+    
+    /** 
+     * ï¿½Ä¼ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ 
+     *  
+     * @param file 
+     * @param delete 
+     *            ï¿½Ç·ï¿½É¾ï¿½ï¿½Ô­Ê¼ï¿½Ä¼ï¿½ 
+     * @throws Exception 
+     */  
+    public static void decompress(File inputFile, File outputFile ,boolean delete) throws Exception {  
+        FileInputStream fis = new FileInputStream(inputFile);  
+        FileOutputStream fos = new FileOutputStream(outputFile);  
+        decompress(fis, fos);  
+        fis.close();  
+        fos.flush();  
+        fos.close();  
+  
+        if (delete) {  
+        	inputFile.delete();  
+        }  
+    }  
   
     /** 
-     * Êý¾Ý½âÑ¹Ëõ 
+     * ï¿½ï¿½Ý½ï¿½Ñ¹ï¿½ï¿½ 
      *  
      * @param is 
      * @param os 
@@ -204,7 +248,7 @@ public abstract class GZipUtils {
     }  
   
     /** 
-     * ÎÄ¼þ½âÑ¹Ëõ 
+     * ï¿½Ä¼ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ 
      *  
      * @param path 
      * @throws Exception 
@@ -214,11 +258,11 @@ public abstract class GZipUtils {
     }  
   
     /** 
-     * ÎÄ¼þ½âÑ¹Ëõ 
+     * ï¿½Ä¼ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ 
      *  
      * @param path 
      * @param delete 
-     *            ÊÇ·ñÉ¾³ýÔ­Ê¼ÎÄ¼þ 
+     *            ï¿½Ç·ï¿½É¾ï¿½ï¿½Ô­Ê¼ï¿½Ä¼ï¿½ 
      * @throws Exception 
      */  
     public static void decompress(String path, boolean delete) throws Exception {  

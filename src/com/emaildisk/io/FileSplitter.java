@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.emaildisk.conf.Config;
-import com.emaildisk.network.IMAPHandler;
+import com.emaildisk.network.NetworkIMAPHandler;
 
 public class FileSplitter {
 	private RandomAccessFile srcFile=null;
@@ -38,7 +38,7 @@ public class FileSplitter {
 				totalBlocks=(int)(totalSize/Config.BLOCKSIZE)+1;
 			else
 				totalBlocks=(int)(totalSize/Config.BLOCKSIZE);
-			if(Config.debugFlag) logger.warning("TotalSize:"+totalSize+" totalBlocks:"+totalBlocks);
+			logger.info("TotalSize:"+totalSize+" totalBlocks:"+totalBlocks);
 			
 			return true;
 		}
@@ -74,10 +74,8 @@ public class FileSplitter {
 				{
 					data=new byte[(int)(totalSize-(totalBlocks-1)*Config.BLOCKSIZE)];
 				}
-				if(Config.debugFlag) 
-				{
-					logger.warning("Off:"+(block-1)*(int)Config.BLOCKSIZE);
-				}
+				logger.info("Current Offset:"+(block-1)*(int)Config.BLOCKSIZE);
+				
 				srcFile.seek((block-1)*(int)Config.BLOCKSIZE);
 				srcFile.read(data);
 				return data;
